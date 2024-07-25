@@ -51,4 +51,148 @@ let init = () => {
     }
 }
 
+// Operations
+let add = (a, b) => a + b;
+let subtract = (a, b) => a - b;
+let multiply = (a, b) => a * b;
+let divide = (a,b) => a/b;
+
+let operate = (operation, a, b) => {
+
+    // Try and convert to Float
+    try {
+        a = parseFloat(a);
+        b = parseFloat(b);
+    } catch (error) {
+        return 'n/a';
+    }
+
+    switch (operation) {
+        case '+':
+            return add(a, b);
+        case '-':
+            return subtract(a, b);
+        case '*':
+            return multiply(a, b);
+        case '/':
+            return divide(a, b);
+    }
+}
+
+let total = '';
+let latch = '';
+let operator = '';
+let justEqualed = false;
+
+let updateScreen = () => {
+    const screen = document.querySelector('.screen');
+
+    // Round to 2 d.p.
+    if (total != '') {
+        try {
+            let totalFloat = parseFloat(total);
+            if (totalFloat != ~~totalFloat) total = total.toFixed(2);
+        } catch {}
+    }
+
+    screen.innerText = total === ''? 0:total;
+}
+
+let resetOperators = () => {
+    const operators = document.querySelectorAll('.operator');
+    for (let i = 0; i < operators.length; i++) {
+        operators[i].id = '';
+    }
+    operator = '';
+}
+
+let setActions = () => {
+
+    // Numbers
+    const numbers = document.querySelectorAll('.number');
+
+    for (let i = 0; i < numbers.length; i++) {
+        numbers[i].addEventListener('click', e => {
+
+            if (numbers[i].innerText === '.' && total.includes('.')) return;
+            if (numbers[i].innerText === 'ans' && total != '') return;
+
+            if (justEqualed) {
+                total = numbers[i].innerText
+                justEqualed = false
+            } else {
+                total = total + numbers[i].innerText;
+            }
+            updateScreen();
+        })
+    }
+
+    // Top operators
+    const topOperators = document.querySelectorAll('.top-operator');
+
+    for (let i = 0; i < topOperators.length; i++) {
+        topOperators[i].addEventListener('click', e => {
+            resetOperators();
+            let action = topOperators[i].innerText;
+
+            if (action === 'AC') {
+                total = '';
+                latch = '';
+            }
+            else { // Either % or inverse
+                if (total != '') {
+                    try {
+                        let temp = parseFloat(total);
+                        temp *= (action === '%') ? 0.01:-1
+                        total = temp.toString();
+                    } catch (error) {}
+                }
+            }
+            updateScreen();
+        })
+    }
+
+    topOperators[0].addEventListener('click', e => {
+        total = '';
+        latch = '';
+        resetOperators();
+        updateScreen();
+    })
+
+    // Operators
+    const operators = document.querySelectorAll('.operator');
+
+    for (let i = 0; i < operators.length; i++) {
+        operators[i].addEventListener('click', e => {
+            if (total === '') {
+                return;
+            } 
+            if (operators[i].innerText != '=') { // Action operator
+                resetOperators();
+                operators[i].id = 'active-operator';
+                if (operator === '') {
+                    latch = total;
+                    total = '';
+                }
+                operator = operators[i].innerText;
+            }
+            else { //Equals operator
+                if (operator != '') {
+                    total = operate(operator, latch, total);
+                    latch = '';
+                    resetOperators();
+                    updateScreen();
+                    justEqualed = true;
+                } else {
+                    updateScreen();
+                }
+            }
+        })
+    }
+}
+
+
+
 init();
+updateScreen();
+setActions();

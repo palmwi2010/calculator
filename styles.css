@@ -17,6 +17,7 @@ body {
     width:450px;
     max-width: 80vw;
     background-color: rgb(59, 57, 57);
+    border-radius: 5px;
 }
 
 .screen {
@@ -34,7 +35,7 @@ body {
 }
 
 .button {
-    aspect-ratio: 1/1;
+    aspect-ratio: 5/4;
     border-radius: 5px;
     margin:3px;
     padding: 10px;
@@ -42,6 +43,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button:hover {
+    cursor:pointer;
 }
 
 .number {
@@ -63,4 +68,8 @@ body {
 .char {
     font-size: 36px;
     font-weight: 500;
+}
+
+#active-operator {
+    background-color: beige;
 }

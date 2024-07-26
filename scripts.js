@@ -1,14 +1,5 @@
 let init = () => {
     const calculatorBody = document.querySelector('.calculator-body');
-    const screen = document.querySelector('.screen');
-
-    for (let i = 0; i < 10; i ++) {
-        let div = document.createElement('div');
-        div.innerText = 'hi';
-        div.classList.add('screen-div');
-        screen.appendChild(div);
-        console.log(screen.children);
-    }
 
     // Config for buttons
     let rows = 5;

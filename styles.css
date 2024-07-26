@@ -30,11 +30,6 @@ body {
     font-size: 48px;
 }
 
-.screen-div {
-    border: 1px solid gray;
-    background-color: red;
-}
-
 .calculator-body {
     padding: 18px;
 }

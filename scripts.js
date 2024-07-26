@@ -1,5 +1,14 @@
 let init = () => {
     const calculatorBody = document.querySelector('.calculator-body');
+    const screen = document.querySelector('.screen');
+
+    for (let i = 0; i < 10; i ++) {
+        let div = document.createElement('div');
+        div.innerText = 'hi';
+        div.classList.add('screen-div');
+        screen.appendChild(div);
+        console.log(screen.children);
+    }
 
     // Config for buttons
     let rows = 5;
@@ -14,6 +23,8 @@ let init = () => {
         rowDiv.classList.add('row-div')
 
         for (let j = 0; j < cols; j++) {
+
+            if (i === rows - 1 && j === cols - 2) continue;
 
             let character = document    .createElement('p');
             character.classList.add('char');
@@ -45,6 +56,12 @@ let init = () => {
                 }
             }
             button.appendChild(character);
+            if (i === 4) {
+                let calculatedHeight = document.querySelector('.button').clientHeight;
+                let calculatedWidth = document.querySelector('.button').clientWidth;
+                button.style.height = calculatedHeight + 'px';
+                if (j != 0) button.style.maxWidth = calculatedWidth + 'px';
+            }
             rowDiv.appendChild(button);
         }
         calculatorBody.appendChild(rowDiv);
@@ -164,7 +181,7 @@ let setActions = () => {
 
     for (let i = 0; i < operators.length; i++) {
         operators[i].addEventListener('click', e => {
-            if (total === '') {
+            if (total === '' && latch === '') {
                 return;
             } 
             if (operators[i].innerText != '=') { // Action operator

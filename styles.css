@@ -27,7 +27,12 @@ body {
     border-radius: 5px;
     padding: 30px 20px;
     text-align: right;
-    font-size: 48px
+    font-size: 48px;
+}
+
+.screen-div {
+    border: 1px solid gray;
+    background-color: red;
 }
 
 .calculator-body {
